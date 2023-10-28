@@ -8,6 +8,6 @@ jobs:
     name: PR-Size
     steps: 
       - name: PR Size
-        uses: pr-size@add_workflow
+        uses: lmnleaf/pr-size@add_workflow
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
