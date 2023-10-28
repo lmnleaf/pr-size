@@ -23,25 +23,6 @@ async function main() {
     console.log("Additions: ", pr.data.additions);
     console.log("Changed files: ", pr.data.changed_files);
 
-
-
-//     const minReviewers = core.getInput('min_reviewers');
-//     const ignoreTeams = core.getInput('min_reviewers') || false;
-
-//     const reviewerCheck = await codeownerReviewerCheck(
-//       octokit,
-//       context,
-//       minReviewers,
-//       ignoreTeams
-//     );
-
-//     // log codeowner reviews
-//     if (reviewerCheck.reviewsNeeded) {
-//       core.info(reviewerCheck.reviewInfo.info);
-//       return core.setFailed(reviewerCheck.reviewInfo.error);
-//     }
-
-//     return core.notice(reviewerCheck.reviewInfo.success);
   } catch (error) {
     core.setFailed(error.message);
   }
