@@ -1,0 +1,11 @@
+name: 'PR Size'
+description: 'Labels PRs with a size based on number of lines of code.'
+
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub Token'
+    required: true
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
