@@ -1,0 +1,13 @@
+name: PR-Size
+on:
+  pull_request:
+
+jobs:
+  prsize:
+    runs-on: ubuntu-latest
+    name: PR-Size
+    steps: 
+      - name: PR Size
+        uses: pr-size@add_workflow
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
