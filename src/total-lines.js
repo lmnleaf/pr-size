@@ -1,4 +1,14 @@
-async function totalLines(prLines, prNumber, excludeSpecs, excludedDirectories, octokit) {
+async function totalLines(owner, repo, prNumber, excludeSpecs, excludedDirectories, octokit) {
+  const pr = await octokit.rest.pulls.get({
+    owner: owner,
+    repo: repo,
+    pull_number: prNumber
+  }).then((response) => {
+    return response.data;
+  });
+
+  let prLines = pr.additions;
+
   let excludeDirectories = (excludedDirectories != undefined && excludedDirectories.length > 0);
 
   if (!excludeSpecs && !excludeDirectories) {
@@ -6,8 +16,8 @@ async function totalLines(prLines, prNumber, excludeSpecs, excludedDirectories, 
   }
 
   const prFileInfo = await octokit.rest.pulls.listFiles({
-    owner: 'lmnleaf',
-    repo: 'pr-size',
+    owner: owner,
+    repo: repo,
     pull_number: prNumber
   }).then((response) => {
     return response.data;
