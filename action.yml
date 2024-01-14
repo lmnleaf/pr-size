@@ -5,6 +5,16 @@ inputs:
   GITHUB_TOKEN:
     description: 'GitHub Token'
     required: true
+  exclude_specs:
+    description: 'Exclude files from PR size calcuation when they are located in a tests, test, specs, or spec directory.'
+    required: false
+  excluded_directories:
+    description: 'Comma separated list of directories to exclude from PR size calcuation.'
+    required: false
+  label_color:
+    description: 'HEX color code. When not included, PR Size labels default to #fcffff.'
+    required: false
+
 
 runs:
   using: 'node20'

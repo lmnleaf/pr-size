@@ -15,8 +15,6 @@ async function ensureLabelExists(owner, repo, labelName, description, color, oct
         description: description,
         color: color
       });
-
-      console.log('Added label: ', labelName);
     }
   } catch(error) {
     throw error;
