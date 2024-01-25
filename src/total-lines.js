@@ -1,7 +1,6 @@
-async function totalLines(owner, repo, prNumber, excludeSpecs, excludedDirectories, octokit) {
+async function totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit) {
   const pr = await octokit.rest.pulls.get({
-    owner: owner,
-    repo: repo,
+    ...repo,
     pull_number: prNumber
   }).then((response) => {
     return response.data;
@@ -16,8 +15,7 @@ async function totalLines(owner, repo, prNumber, excludeSpecs, excludedDirectori
   }
 
   const prFileInfo = await octokit.rest.pulls.listFiles({
-    owner: owner,
-    repo: repo,
+    ...repo,
     pull_number: prNumber
   }).then((response) => {
     return response.data;

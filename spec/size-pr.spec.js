@@ -6,6 +6,7 @@ describe("Size PR", function() {
   let prLines = 475;
   let prNumber = 2;
   let color = 'fcffff'
+  let repo = { repo: 'repo-name' }
 
   it('adds a label to the PR that indicates the size', async function() {
     let excludeSpecs = false;
@@ -13,10 +14,9 @@ describe("Size PR", function() {
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR('org', 'repo', excludeSpecs, excludedDirectories, prNumber, color, octokit);
+    await sizePR(excludeSpecs, excludedDirectories, color, repo, prNumber, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
-      owner: 'org',
-      repo: 'repo',
+      ...repo,
       issue_number: prNumber,
       labels: ['PR Size: L']
     });
@@ -28,10 +28,9 @@ describe("Size PR", function() {
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR('org', 'repo', excludeSpecs, excludedDirectories, prNumber, color, octokit);
+    await sizePR(excludeSpecs, excludedDirectories, color, repo, prNumber, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
-      owner: 'org',
-      repo: 'repo',
+      ...repo,
       issue_number: prNumber,
       labels: ['PR Size: L']
     });
@@ -44,10 +43,9 @@ describe("Size PR", function() {
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR('org', 'repo', excludeSpecs, excludedDirectories, prNumber, color, octokit);
+    await sizePR(excludeSpecs, excludedDirectories, color, repo, prNumber, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
-      owner: 'org',
-      repo: 'repo',
+      ...repo,
       issue_number: prNumber,
       labels: ['PR Size: L']
     });
@@ -60,10 +58,9 @@ describe("Size PR", function() {
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR('org', 'repo', excludeSpecs, excludedDirectories, prNumber, color, octokit);
+    await sizePR(excludeSpecs, excludedDirectories, color, repo, prNumber, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
-      owner: 'org',
-      repo: 'repo',
+      ...repo,
       issue_number: prNumber,
       labels: ['PR Size: XS']
     });
@@ -75,7 +72,7 @@ describe("Size PR", function() {
     });
 
     try {
-      await sizePR('org', 'repo', false, [], prNumber, color, octokit);
+      await sizePR(false, [], color, repo, prNumber, octokit);
     } catch (error) {
       expect(error).toEqual(new Error('woops'));
     }

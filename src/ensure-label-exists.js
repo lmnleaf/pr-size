@@ -1,16 +1,14 @@
-async function ensureLabelExists(owner, repo, labelName, description, color, octokit) {
+async function ensureLabelExists(labelName, description, color, repo, octokit) {
   try {
     let labels = await octokit.rest.issues.listLabelsForRepo({
-      owner: owner,
-      repo: repo,
+      ...repo
     });
   
     let exists = labels.data.some(label => label.name === labelName);
   
     if (!exists) {
       await octokit.rest.issues.createLabel({
-        owner: owner,
-        repo: repo,
+        ...repo,
         name: labelName,
         description: description,
         color: color
