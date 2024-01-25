@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  check-pr-size:
+  check_pr_size:
     runs-on: ubuntu-latest
     name: Check PR Size
     steps:
