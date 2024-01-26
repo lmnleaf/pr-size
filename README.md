@@ -32,3 +32,6 @@ The size of the PR is determined by the number of additions to the PR.
   * `label_color`
     * Defaults to `#fcffff`.
     * Include a HEX color code for a different color. All PR size labels will be the same color.
+
+**Example Workflow**
+
