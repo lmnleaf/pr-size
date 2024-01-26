@@ -5,14 +5,13 @@ describe("total lines", function() {
   let octokit = new Moctokit();
   let prLines = 475;
   let prNumber = 2;
-  let org = 'org';
-  let repo = 'repo';
+  let repo = { repo: 'repo-name' }
 
   it('sets the total lines when all files should be included', async function() {
     let excludeSpecs = false;
     let excludedDirectories = null;
 
-    let lines = await totalLines(org, repo, prNumber, excludeSpecs, excludedDirectories, octokit);
+    let lines = await totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit);
     expect(lines).toEqual(prLines);
   });
 
@@ -20,7 +19,7 @@ describe("total lines", function() {
     let excludeSpecs = true;
     let excludedDirectories = null;
 
-    let lines = await totalLines(org, repo, prNumber, excludeSpecs, excludedDirectories, octokit);
+    let lines = await totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit);
     expect(lines).toEqual(222);
   });
 
@@ -28,7 +27,7 @@ describe("total lines", function() {
     let excludeSpecs = false;
     let excludedDirectories = ['dist'];
 
-    let lines = await totalLines(org, repo, prNumber, excludeSpecs, excludedDirectories, octokit);
+    let lines = await totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit);
     expect(lines).toEqual(353);
   });
 
@@ -36,7 +35,7 @@ describe("total lines", function() {
     let excludeSpecs = false;
     let excludedDirectories = ['dist', 'wow'];
 
-    let lines = await totalLines(org, repo, prNumber, excludeSpecs, excludedDirectories, octokit);
+    let lines = await totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit);
     expect(lines).toEqual(351);
   });
 
@@ -44,7 +43,7 @@ describe("total lines", function() {
     let excludeSpecs = true;
     let excludedDirectories = ['dist'];
 
-    let lines = await totalLines(org, repo, prNumber, excludeSpecs, excludedDirectories, octokit);
+    let lines = await totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit);
     expect(lines).toEqual(100);
   });
 
@@ -52,7 +51,7 @@ describe("total lines", function() {
     let excludeSpecs = false;
     let excludedDirectories = [];
 
-    let lines = await totalLines(org, repo, prNumber, excludeSpecs, excludedDirectories, octokit);
+    let lines = await totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit);
     expect(lines).toEqual(475);
   });
 
@@ -62,7 +61,7 @@ describe("total lines", function() {
     });
 
     try {
-      let lines = await totalLines(org, repo, prNumber, false, [], octokit);
+      let lines = await totalLines(false, [], repo, prNumber, octokit);
     } catch (error) {
       expect(error).toEqual(new Error('uh oh'));
     }
@@ -74,7 +73,7 @@ describe("total lines", function() {
     });
 
     try {
-      let lines = await totalLines(org, repo, prNumber, true, [], octokit);
+      let lines = await totalLines(true, [], repo, prNumber, octokit);
     } catch (error) {
       expect(error).toEqual(new Error('uh oh'));
     }

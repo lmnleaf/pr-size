@@ -29858,6 +29858,14 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 4608:
+/***/ ((module) => {
+
+module.exports = eval("require")("../src/size-pr.js");
+
+
+/***/ }),
+
 /***/ 9491:
 /***/ ((module) => {
 
@@ -30127,9 +30135,29 @@ const core = __nccwpck_require__(1655);
 const github = __nccwpck_require__(4901);
 
 const context = github.context;
+const sizePR = __nccwpck_require__(4608)
 
-function main() {
-  console.log('cool...');
+async function main() {
+  try {
+    const token = core.getInput('GITHUB_TOKEN');
+    const octokit = new github.getOctokit(token);
+
+    const specsInput = core.getInput('exclude_specs');
+    const directoriesInput = core.getInput('excluded_directories');
+    const labelColor = core.getInput('label_color') || 'fcffff';
+
+    const excludeSpecs = (specsInput === 'true' || specsInput === 1);
+    const excludedDirectories = directoriesInput || [];
+
+    const repo = context.repo;
+    const prNumber = context.payload.pull_request.number;
+
+    const size = await sizePR(excludeSpecs, excludedDirectories, labelColor, repo, prNumber, octokit);
+
+    return core.notice(size);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
 
 main();

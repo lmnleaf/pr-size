@@ -3,20 +3,20 @@ const Moctokit = require('./support/moctokit.js');
 
 describe("Ensure Label Exists", function() {
   let octokit = new Moctokit();
+  let repo = { repo: 'repo-name' }
 
   it('checks for the label', async function() {
     spyOn(octokit.rest.issues, 'listLabelsForRepo').and.callThrough();
-    let labels = await ensureLabelExists('org', 'repo', 'PR Size: S', 'PR is 10 - 29 lines', 'fcffff', octokit);
+    let labels = await ensureLabelExists('PR Size: S', 'PR is 10 - 29 lines', 'fcffff', repo, octokit);
 
     expect(octokit.rest.issues.listLabelsForRepo).toHaveBeenCalledWith({
-      owner: 'org',
-      repo: 'repo'
+      ...repo
     });
   });
 
   it('does NOT create a label when the label already exists', async function() {
     spyOn(octokit.rest.issues, 'createLabel').and.callThrough();
-    let labels = await ensureLabelExists('org', 'repo', 'PR Size: XS', 'PR is fewer than 10 lines', 'fcffff', octokit);
+    let labels = await ensureLabelExists('PR Size: XS', 'PR is fewer than 10 lines', 'fcffff', repo, octokit);
 
     expect(octokit.rest.issues.createLabel).not.toHaveBeenCalled();
   })
@@ -25,15 +25,13 @@ describe("Ensure Label Exists", function() {
     spyOn(octokit.rest.issues, 'listLabelsForRepo').and.callThrough();
     spyOn(octokit.rest.issues, 'createLabel').and.callThrough();
 
-    let labels = await ensureLabelExists('org', 'repo', 'PR Size: S', 'PR is 10 - 29 lines', 'fcffff', octokit);
+    let labels = await ensureLabelExists('PR Size: S', 'PR is 10 - 29 lines', 'fcffff', repo, octokit);
     expect(octokit.rest.issues.listLabelsForRepo).toHaveBeenCalledWith({
-      owner: 'org',
-      repo: 'repo'
+      ...repo
     });
     
     expect(octokit.rest.issues.createLabel).toHaveBeenCalledWith({
-      owner: 'org',
-      repo: 'repo',
+      ...repo,
       name: 'PR Size: S',
       description: 'PR is 10 - 29 lines',
       color: 'fcffff'
@@ -47,7 +45,7 @@ describe("Ensure Label Exists", function() {
 
     try {
       let labels = await ensureLabelExists(
-        'org', 'repo', 'PR Size: XS', 'PR is fewer than 10 lines', 'fcffff', octokit
+        'PR Size: XS', 'PR is fewer than 10 lines', 'fcffff', repo, octokit
       );
     } catch (error) {
       expect(error).toEqual(new Error('uh oh'));
@@ -60,7 +58,7 @@ describe("Ensure Label Exists", function() {
     });
 
     try {
-      let labels = await ensureLabelExists('org', 'repo', 'PR Size: XS', 'PR is fewer than 10 lines', 'fcffff', octokit);
+      let labels = await ensureLabelExists('PR Size: XS', 'PR is fewer than 10 lines', 'fcffff', repo, octokit);
     } catch (error) {
       expect(error).toEqual(new Error('uh oh'));
     }
