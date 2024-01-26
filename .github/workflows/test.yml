@@ -1,0 +1,14 @@
+name: PR Size Test
+
+on:
+  pull_request:
+
+jobs:
+  check_pr_size:
+    runs-on: ubuntu-latest
+    name: Check PR Size Test
+    steps:
+      - name: PR Size Test
+        uses: lmnleaf/pr-size@label_check
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
