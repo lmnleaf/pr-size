@@ -11,4 +11,4 @@ jobs:
       - name: PR Size
         uses: lmnleaf/pr-size@add_readme_info
         with:
-          GITHUB_TOKEN: "woot"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
