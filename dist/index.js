@@ -30139,6 +30139,9 @@ const sizePR = __nccwpck_require__(4608)
 
 async function main() {
   try {
+    console.log("Context: ");
+    console.log(context.payload.pull_request);
+
     const token = core.getInput('GITHUB_TOKEN');
     const octokit = new github.getOctokit(token);
 

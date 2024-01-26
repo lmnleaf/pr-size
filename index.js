@@ -6,6 +6,9 @@ const sizePR = require('../src/size-pr.js')
 
 async function main() {
   try {
+    console.log("Context: ");
+    console.log(context.payload.pull_request);
+
     const token = core.getInput('GITHUB_TOKEN');
     const octokit = new github.getOctokit(token);
 
