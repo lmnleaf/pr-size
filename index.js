@@ -16,10 +16,7 @@ async function main() {
     const excludeSpecs = (specsInput === 'true' || specsInput === 1);
     const excludedDirectories = directoriesInput || [];
 
-    const repo = context.repo;
-    const prNumber = context.payload.pull_request.number;
-
-    const size = await sizePR(excludeSpecs, excludedDirectories, labelColor, repo, prNumber, octokit);
+    const size = await sizePR(excludeSpecs, excludedDirectories, labelColor, context, octokit);
 
     return core.notice(size);
   } catch (error) {

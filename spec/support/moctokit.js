@@ -8,7 +8,8 @@ class Moctokit {
       issues: {
         listLabelsForRepo: this.listLabels,
         createLabel: this.createLabel,
-        addLabels: this.addLabels
+        addLabels: this.addLabels,
+        removeLabel: this.removeLabel
       }
     };
   }
@@ -51,7 +52,7 @@ class Moctokit {
         {
           id: 208045947,
           node_id: 'MDU6TGFiZWwyMDgwNDU5NDZ=',
-          url: 'https://api.github.com/repos/octocat/repo-name/labels/PRSizeXS',
+          url: 'https://api.github.com/repos/octocat/repo-name/labels/PR%20Size:%20XS',
           name: 'PR Size: XS',
           color: 'fcffff',
           default: false,
@@ -60,7 +61,7 @@ class Moctokit {
         {
           id: 208045948,
           node_id: 'MDU6TGFiZWwyMDgwNDU5NDX=',
-          url: 'https://api.github.com/repos/octocat/repo-name/labels/bug',
+          url: 'https://api.github.com/repos/octocat/repo-name/labels/PR%20Size:%20XL',
           name: 'PR Size: XL',
           color: 'fcffff',
           default: false,
@@ -75,7 +76,7 @@ class Moctokit {
       data: {
         id: 208045948,
         node_id: 'MDU6TGFiZWwyMDgwNDU5NDW=',
-        url: 'https://api.github.com/repos/octocat/repo-name/labels/bug',
+        url: 'https://api.github.com/repos/octocat/repo-name/labels/PR%20Size:%20M',
         name: 'PR Size: M',
         color: 'fcffff',
         default: false,
@@ -89,12 +90,28 @@ class Moctokit {
       data: {
         id: 208045948,
         node_id: 'MDU6TGFiZWwyMDgwNDU5NDW=',
-        url: 'https://api.github.com/repos/octocat/repo-name/labels/bug',
+        url: 'https://api.github.com/repos/octocat/repo-name/labels/PR%20Size:%20M',
         name: 'PR Size: M',
         color: 'fcffff',
         default: false,
         description: 'PR is 30 - 99 lines'
       }
+    })
+  }
+
+  removeLabel() {
+    return Promise.resolve({
+      data: [
+        {
+          id: 208045946,
+          node_id: 'MDU6TGFiZWwyMDgwNDU5NDY=',
+          url: 'https://api.github.com/repos/octocat/repo-name/labels/bug',
+          name: 'bug',
+          color: 'f29513',
+          default: false,
+          description: 'Something isn\'t working'
+        }
+      ]
     })
   }
 }
