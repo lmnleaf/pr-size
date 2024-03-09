@@ -30146,10 +30146,7 @@ async function main() {
     const directoriesInput = core.getInput('excluded_directories');
     const labelColor = core.getInput('label_color') || 'fcffff';
 
-    const excludeSpecs = (specsInput === 'true' || specsInput === 1);
-    const excludedDirectories = directoriesInput || [];
-
-    const size = await sizePR(excludeSpecs, excludedDirectories, labelColor, context, octokit);
+    const size = await sizePR(specsInput, directoriesInput, labelColor, context, octokit);
 
     return core.notice(size);
   } catch (error) {

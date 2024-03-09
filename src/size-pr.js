@@ -3,11 +3,16 @@ const totalLines = require('./total-lines.js');
 const ensureLabelExists = require('./ensure-label-exists.js');
 const labelPR = require('./label-pr.js');
 
-async function sizePR(excludeSpecs, excludedDirectories, color, context, octokit) {
+async function sizePR(specsInput, directoriesInput, color, context, octokit) {
   try {
     const repo = context.repo;
     const prNumber = context.payload.pull_request.number;
     const prLabels = context.payload.pull_request.labels;
+    const excludeSpecs = (specsInput === 'true' || specsInput === 1) || false;
+    const excludedDirectories =
+      directoriesInput === null || directoriesInput === undefined
+        ? []
+        : directoriesInput.split(',');
 
     const total = await totalLines(excludeSpecs, excludedDirectories, repo, prNumber, octokit);
     const { label, description } = size(total);
