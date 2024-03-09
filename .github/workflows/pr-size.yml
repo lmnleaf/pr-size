@@ -9,7 +9,7 @@ jobs:
     name: Check PR Size
     steps:
       - name: PR Size
-        uses: lmnleaf/pr-size@main
+        uses: lmnleaf/pr-size@test_workflow
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           excluded_directories: src,.github
