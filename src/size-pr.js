@@ -5,7 +5,7 @@ const labelPR = require('./label-pr.js');
 
 async function sizePR(specsInput, directoriesInput, color, context, octokit) {
   try {
-    console.log('Excluded Directories', excludedDirectories);
+    console.log('Excluded Directories', directories);
     console.log('Excluded Specs', excludeSpecs);
     const repo = context.repo;
     const prNumber = context.payload.pull_request.number;
