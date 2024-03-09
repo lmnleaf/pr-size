@@ -27,11 +27,11 @@ describe("Size PR", function() {
 
   it('adds a label to the PR that indicates the size', async function() {
     let excludeSpecs = false;
-    let excludedDirectories = [];
+    let directoriesInput;
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR(excludeSpecs, excludedDirectories, color, context, octokit);
+    await sizePR(excludeSpecs, directoriesInput, color, context, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
       ...context.repo,
       issue_number: prNumber,
@@ -41,11 +41,11 @@ describe("Size PR", function() {
 
   it('adds a label to the PR that indicates size when specs are excluded', async function() {
     let excludeSpecs = true;
-    let excludedDirectories = [];
+    let directoriesInput;
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR(excludeSpecs, excludedDirectories, color, context, octokit);
+    await sizePR(excludeSpecs, directoriesInput, color, context, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
       ...context.repo,
       issue_number: prNumber,
@@ -55,11 +55,11 @@ describe("Size PR", function() {
 
   it('adds a label to the PR that indicates size when directories are excluded', async function() {
     let excludeSpecs = false;
-    let excludedDirectories = ['test'];
+    let directoriesInput = 'test';
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR(excludeSpecs, excludedDirectories, color, context, octokit);
+    await sizePR(excludeSpecs, directoriesInput, color, context, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
       ...context.repo,
       issue_number: prNumber,
@@ -69,25 +69,42 @@ describe("Size PR", function() {
 
   it('adds a label to the PR that indicates size when both specs and directories are excluded', async function() {
     let excludeSpecs = true;
-    let excludedDirectories = ['test', 'specs'];
+    let directoriesInput = 'src/woot,wow';
 
     spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
 
-    await sizePR(excludeSpecs, excludedDirectories, color, context, octokit);
+    await sizePR(excludeSpecs, directoriesInput, color, context, octokit);
     expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
       ...context.repo,
       issue_number: prNumber,
-      labels: ['PR Size: XS']
+      labels: ['PR Size: L']
+    });
+  });
+
+  // Note: this spec ensures there aren't too many files subtracted
+  it('adds a label to the PR that indicates size when both specs and directories match and are excluded', async function() {
+    let excludeSpecs = true;
+    let directoriesInput = 'test,specs';
+
+    spyOn(octokit.rest.issues, 'addLabels').and.callThrough();
+
+    await sizePR(excludeSpecs, directoriesInput, color, context, octokit);
+    expect(octokit.rest.issues.addLabels).toHaveBeenCalledWith({
+      ...context.repo,
+      issue_number: prNumber,
+      labels: ['PR Size: L']
     });
   });
 
   it('handles errors', async function() {
+    let directoriesInput;
+
     spyOn(octokit.rest.pulls, 'get').and.callFake(function() {
       return Promise.reject(new Error('woops'));
     });
 
     try {
-      await sizePR(false, [], color, context, octokit);
+      await sizePR(false, directoriesInput, color, context, octokit);
     } catch (error) {
       expect(error).toEqual(new Error('woops'));
     }
