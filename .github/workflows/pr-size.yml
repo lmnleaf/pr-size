@@ -12,4 +12,4 @@ jobs:
         uses: lmnleaf/pr-size@test_workflow
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          excluded_directories: .github
+          excluded_directories: src,.github
