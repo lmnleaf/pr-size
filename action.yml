@@ -1,5 +1,5 @@
 name: 'PR Size'
-description: 'Labels PRs with a size based on number of lines of code.'
+description: 'Labels PRs with a size based on the number of lines of code added/updated in the PR.'
 
 inputs:
   GITHUB_TOKEN:
