@@ -7,9 +7,10 @@ async function totalLines(excludeSpecs, excludedDirectories, repo, prNumber, oct
   });
 
   let prLines = pr.additions;
-
+  console.log('Excluded Directories Type: ');
+  console.log(typeof excludedDirectories);
   let excludeDirectories = (excludedDirectories != undefined && excludedDirectories.length > 0);
-
+  console.log('Exclude Directories: ', excludeDirectories);
   if (!excludeSpecs && !excludeDirectories) {
     return prLines;
   }
@@ -60,6 +61,8 @@ async function totalLines(excludeSpecs, excludedDirectories, repo, prNumber, oct
       try {
         excludedDirectories.forEach((directory) => {
           if (file.filename.includes(directory + '/')) {
+            console.log('Directory', directory);
+            console.log('Number Lines to Subtract: ', file.additions);
             directoryLines += file.additions;
   
             // throw error to break out of excludedDirectories loop
@@ -72,7 +75,8 @@ async function totalLines(excludeSpecs, excludedDirectories, repo, prNumber, oct
         return true;
       }
     });
-
+    console.log('PR Lines: ', prLines);
+    console.log('Directory Lines: ', directoryLines);
     prLines -= directoryLines;
   }
 
